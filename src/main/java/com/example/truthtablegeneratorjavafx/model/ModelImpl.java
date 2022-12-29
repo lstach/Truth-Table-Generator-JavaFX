@@ -11,6 +11,7 @@ public class ModelImpl implements Model{
 
     }
 
+    //TODO: get input from textfield, shunt
     public void shunt(){
 
     }

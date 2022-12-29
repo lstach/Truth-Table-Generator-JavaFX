@@ -2,6 +2,7 @@ package com.example.truthtablegeneratorjavafx.view;
 
 import com.example.truthtablegeneratorjavafx.controller.Controller;
 import com.example.truthtablegeneratorjavafx.model.Model;
+import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
@@ -39,6 +40,10 @@ public class FormulaEntryView implements FXComponent{
         button.setMinWidth(100);
         button.setMaxWidth(100);
         button.setPrefWidth(100);
+        button.setOnAction(
+                (ActionEvent event) -> {
+                    controller.clickCalculate();
+                });
 
         //add UI elements to the hbox
         hBox.getChildren().add(formulaEntry);
