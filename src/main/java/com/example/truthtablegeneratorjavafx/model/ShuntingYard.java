@@ -27,12 +27,12 @@ public class ShuntingYard {
 
     /*** shunt() takes each token (individual operator and operand) in infix (i.e. standard) notation, and converts it into a list ordered in RPN ***/
     /*** this DOESN'T evaluate the boolean expression; that is done by calculate using the output from this function. ***/
-    public static ArrayList<String> shunt(String[] tokens){
+    public static ArrayList<String> shunt(ArrayList<String> tokens){
         Stack<String> operatorStack = new Stack<>();
         ArrayList<String> output = new ArrayList<>();
 
-        for (int i = 0; i < tokens.length; i++){ //while there are tokens to be read
-            String token = tokens[i]; //read a token
+        for (int i = 0; i < tokens.size(); i++){ //while there are tokens to be read
+            String token = tokens.get(i); //read a token
             if (isOperator(token)){ //if token is an operator
                 while (!operatorStack.isEmpty() && precedenceLevel(token) <= precedenceLevel(operatorStack.peek())){ //while there is an operator at the top of the stack w/ greater precedence
                     if (precedenceLevel(token) > precedenceLevel(operatorStack.peek())){ //push the current token to the stack if it is of higher precedence
@@ -54,7 +54,7 @@ public class ShuntingYard {
                 }
                 operatorStack.pop(); //DOES NOT ADD LEFT PARENTHESES TO OUTPUT! Just gets rid of it.
             }
-            /*** change to .isOperand(token) in production, using .isBoolean() for testing purposes ***/
+            /*** TODO: change to .isOperand(token) in production, using .isBoolean() for testing purposes ***/
             else if (isBoolean(token)){ //if token is an operand (i.e. a boolean variable) add it to the output
                 output.add(token);
             }
@@ -90,7 +90,7 @@ public class ShuntingYard {
     }
 
     /*** reads a boolean expression in RPN (the output from shunt()) and outputs the result. ***/
-    public boolean calculate(ArrayList<String> tokens){
+    public static boolean calculate(ArrayList<String> tokens){
         Stack<Boolean> stack = new Stack<>();
 
         for (String token: tokens){

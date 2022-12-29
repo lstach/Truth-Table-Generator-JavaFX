@@ -27,7 +27,7 @@ public class HelloApplication extends Application {
         stage.show();*/
 
         Model model = new ModelImpl();
-        Controller controller = new ControllerImpl();
+        Controller controller = new ControllerImpl(model);
 
         BigMainView bigPapa = new BigMainView(model, controller);
 

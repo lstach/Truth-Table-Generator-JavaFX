@@ -7,8 +7,12 @@ public class ControllerImpl implements Controller{
 
     private Model model;
 
+    public ControllerImpl(Model model){
+        this.model = model;
+    }
+
     public void clickCalculate(String formula){
-        model.parse(formula);
+        model.main(formula);
     }
 
 }
