@@ -1,5 +1,5 @@
 package com.example.truthtablegeneratorjavafx.controller;
 
 public interface Controller {
-    void clickCalculate();
+    void clickCalculate(String formula);
 }

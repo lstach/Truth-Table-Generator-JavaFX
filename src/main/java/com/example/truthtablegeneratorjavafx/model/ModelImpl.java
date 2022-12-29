@@ -1,22 +1,44 @@
 package com.example.truthtablegeneratorjavafx.model;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 public class ModelImpl implements Model{
 
-    private boolean[][] rpnBoolGrid;
+    private boolean[][] boolGrid;
     private String[][] truthTable;
 
     public ModelImpl(){
-        rpnBoolGrid = new boolean[0][0];
+        boolGrid = new boolean[0][0];
         truthTable = new String[0][0];
 
     }
 
-    //TODO: get input from textfield, shunt
-    public void shunt(){
+    //TODO: get input from textfield, change from String[] to ArrayList<String> return type
+    public String[] parse(String formula){
+        //TODO: fix this! this is a temp solution
+        String[] infixTokens = formula.split(" ");
 
+
+        return infixTokens;
     }
 
+    public void main(String formula){
 
+        ArrayList<String> infixTokens = new ArrayList<>(Arrays.asList(parse(formula)));
+        ArrayList<String> rpnTokens = ShuntingYard.shunt(parse(formula));
+        int numOperands = countOperands(infixTokens);
+
+        boolGrid = generateRows(numOperands);
+        System.out.println("Printing out true/false combinations for " + numOperands + " operands...");
+        for (int row = 0; row < boolGrid.length; row++){
+            for (int col = 0; col < boolGrid[row].length; col++){
+                System.out.print(boolGrid[row][col] + " ");
+            }
+            System.out.println();
+        }
+
+    }
 
     public boolean[][] generateRows(int numOperands){
 
@@ -39,4 +61,14 @@ public class ModelImpl implements Model{
         return grid;
     }
 
+    public int countOperands(ArrayList<String> tokens){
+        ArrayList<String> uniqueOps = new ArrayList<>();
+        for (int i = 0; i < tokens.size(); i++){
+            String token = tokens.get(i);
+            if(!uniqueOps.contains(token) && ShuntingYard.isOperand(token)){ //if the token is an operand and it hasn't already been counted
+                uniqueOps.add(token);
+            }
+        }
+        return uniqueOps.size();
+    }
 }

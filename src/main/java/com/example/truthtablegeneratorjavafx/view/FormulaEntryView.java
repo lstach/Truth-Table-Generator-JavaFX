@@ -42,7 +42,7 @@ public class FormulaEntryView implements FXComponent{
         button.setPrefWidth(100);
         button.setOnAction(
                 (ActionEvent event) -> {
-                    controller.clickCalculate();
+                    controller.clickCalculate(formulaEntry.getText());
                 });
 
         //add UI elements to the hbox

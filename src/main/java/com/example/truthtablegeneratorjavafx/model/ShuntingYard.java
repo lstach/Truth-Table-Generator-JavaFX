@@ -131,16 +131,7 @@ public class ShuntingYard {
         return stack.pop();
     }
 
-    public int countOperands(ArrayList<String> tokens){
-        ArrayList<String> uniqueOps = new ArrayList<>();
-        for (int i = 0; i < tokens.size(); i++){
-            String token = tokens.get(i);
-            if(!uniqueOps.contains(token) && isOperand(token)){ //if the token is an operand and it hasn't already been counted
-                uniqueOps.add(token);
-            }
-        }
-        return uniqueOps.size();
-    }
+
 
 
     public static boolean isLeftParen(String s){
