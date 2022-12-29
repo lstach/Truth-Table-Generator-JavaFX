@@ -23,17 +23,23 @@ public class BigMainView implements FXComponent, ModelObserver {
         scene = new Scene(render(), 500, 500);
     }
 
-
     public Scene getScene(){
      return scene;
     }
+
+
     @Override
     public Parent render() {
         borderPane = new BorderPane();
 
-        Label testLabel = new Label();
-        testLabel.setText("Hi hello ima test label hey!");
-        borderPane.setTop(testLabel);
+        FormulaEntryView formulaEntryView = new FormulaEntryView(model, controller);
+
+        borderPane.setTop(formulaEntryView.render());
+
+
+        Label tempLabel = new Label("im a temp label");
+        borderPane.setCenter(tempLabel);
+
         return borderPane;
     }
 
