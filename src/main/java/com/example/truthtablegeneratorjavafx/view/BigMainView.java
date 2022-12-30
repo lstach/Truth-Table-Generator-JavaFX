@@ -34,11 +34,11 @@ public class BigMainView implements FXComponent, ModelObserver {
 
         FormulaEntryView formulaEntryView = new FormulaEntryView(model, controller);
 
+        TableView tableView = new TableView(model, controller);
+
         borderPane.setTop(formulaEntryView.render());
 
-
-        Label tempLabel = new Label("im a temp label");
-        borderPane.setCenter(tempLabel);
+        borderPane.setCenter(tableView.render());
 
         return borderPane;
     }

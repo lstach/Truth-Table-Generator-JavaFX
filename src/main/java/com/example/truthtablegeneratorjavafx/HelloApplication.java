@@ -31,6 +31,8 @@ public class HelloApplication extends Application {
 
         BigMainView bigPapa = new BigMainView(model, controller);
 
+        model.addObserver(bigPapa);
+
         stage.setScene(bigPapa.getScene());
 
         stage.setTitle("Hi there hello!");

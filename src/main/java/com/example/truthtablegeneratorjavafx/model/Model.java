@@ -9,5 +9,11 @@ public interface Model {
 
     public void main(String formula);
 
+    public ArrayList<String>[] getTruthTable();
+
+    public ArrayList<String> getVariables();
+    public String getFormula();
+    public void notifyObservers();
+    public void addObserver(ModelObserver observer);
 
 }
