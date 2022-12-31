@@ -55,21 +55,8 @@ public class ModelImpl implements Model{
 
         System.out.print("Generating true/false combinations for " + numOperands + " operands...");
         boolGrid = generateRows(numOperands);
-        System.out.println("Done.\n");
 
-        System.out.println("Printing out true/false combinations for " + numOperands + " operands...");
-        System.out.println();
-        for (int row = 0; row < boolGrid.length; row++){
-
-            for (int col = 0; col < boolGrid[row].length; col++){
-                System.out.print(boolGrid[row][col] + " ");
-            }
-            System.out.println();
-        }
-
-        System.out.println();
-
-        System.out.println("Generating the 2d array of strings containing the each formula with their true/false combinations in RPN (i.e. generating formulaGrid)...");
+        //Generating the 2d array of strings containing the each formula with their true/false combinations in RPN (i.e. generating formulaGrid)...
         formulaGrid = new ArrayList[boolGrid.length];
 
         //TODO: within this double-for loop, add the answer to each rowFormula to the end of the rowFormula List
@@ -102,24 +89,10 @@ public class ModelImpl implements Model{
 
             formulaGrid[row] = rowFormula;
         }
-        System.out.println(" Done.");
-
-        System.out.println();
-        System.out.println("Now printing out the encoded formula grid (w/ the operand)...");
-        System.out.println();
-
-        for (int row = 0; row < formulaGrid.length; row++){
-            for (int i = 0; i < formulaGrid[row].size(); i++){
-                System.out.print(formulaGrid[row].get(i) + " ");
-            }
-            System.out.println();
-        }
-        System.out.println("Done.");
 
 
 
-        System.out.println();
-        System.out.print("Now generating truthTable, the 2d matrix of strings containing each combination of true and false and the answer for each combination in the last column... ");
+        //generating truthTable, the 2d matrix of strings containing each combination of true and false and the answer for each combination in the last column...
 
         truthTable = new ArrayList[boolGrid.length];
 
@@ -134,22 +107,6 @@ public class ModelImpl implements Model{
             String value = formulaGrid[row].get(formulaGrid[row].size() - 1); //gets the last element in the corresponding row of the formula grid, which is the actual value of the expression using that row's combination
             truthTable[row].add(value);
         }
-        System.out.println("Done.");
-
-
-
-
-        System.out.println();
-        System.out.println("Now printing the truthTable....");
-        System.out.println();
-
-        for (int row = 0; row < truthTable.length; row++){
-            for (int col = 0; col < truthTable[row].size(); col++){
-                System.out.print(truthTable[row].get(col) + " ");
-            }
-            System.out.println();
-        }
-        System.out.println("Done.");
 
         notifyObservers();
     }
