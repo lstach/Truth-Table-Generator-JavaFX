@@ -3,6 +3,7 @@ package com.example.truthtablegeneratorjavafx.model;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Stack;
 
 public class ModelImpl implements Model{
 
@@ -37,10 +38,29 @@ public class ModelImpl implements Model{
     //TODO: get input from textfield, change from String[] to ArrayList<String> return type
     public ArrayList<String> parse(String formula){
         //TODO: fix this! this is a temp solution
-        String[] infixTokens = formula.split(" ");
 
+        formula = formula.replace(" ", "");
 
-        return new ArrayList<>(Arrays.asList(infixTokens));
+        ArrayList<String> parsedTokens = new ArrayList<>(); //the actual list being returned by this function
+        String stringBuilder = ""; //temp string used to build tokens that are mutliple characters long (e.g. "/\")
+        Stack<String> stack = new Stack<>();
+
+        for (int i = 0; i < formula.length(); i++){
+            String curr = formula.substring(i, i+1);
+
+            if (ShuntingYard.isOperand(curr)){
+                parsedTokens.add(curr);
+            }
+            else if (ShuntingYard.isLeftParen(curr) || ShuntingYard.isRightParen(curr)){
+                parsedTokens.add(curr);
+            }
+            else{
+
+            }
+
+        }
+
+        return null;
     }
 
     public void main(String formula){

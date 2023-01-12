@@ -34,6 +34,10 @@ public class TableView implements FXComponent{
         GridPane gridPane = new GridPane();
 
         gridPane.setAlignment(Pos.CENTER);
+        gridPane.setStyle("fx"
+
+
+        );
 
         //add each variable as a header to the truth table
         for (int i = 0; i < variables.size(); i++){
