@@ -22,7 +22,7 @@ public class ShuntingYard {
     //operands exclude 't' and 'f' because those are considered reserved keywords for "true" and "false" respectively.  Same for "x", which is reserve for xor
     public static ArrayList<String> operands = new ArrayList<>(Arrays.asList(
             "a", "b", "c", "d", "e", "g", "h", "i", "j", "k", "l", "m", "n",
-            "o", "p", "q", "r", "s", "u", "v", "w", "y", "z"
+            "p", "q", "s", "u", "v", "w", "y", "z"
     ));
 
     /*** shunt() takes each token (individual operator and operand) in infix (i.e. standard) notation, and converts it into a list ordered in RPN ***/

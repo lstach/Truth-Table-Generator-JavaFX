@@ -21,6 +21,9 @@ public class ModelImpl implements Model{
     private ArrayList<String> variables;
     /** formula string entered by the user **/
     private String formula;
+    ArrayList<String> operators = new ArrayList<String>(Arrays.asList(
+            "->", "/\\", "\\/", "<->", "!", "xor"
+    ));
 
     private ArrayList<ModelObserver> observers;
 
@@ -54,13 +57,19 @@ public class ModelImpl implements Model{
             else if (ShuntingYard.isLeftParen(curr) || ShuntingYard.isRightParen(curr)){
                 parsedTokens.add(curr);
             }
-            else{
+            else{ // is part of an operator
+                stringBuilder += curr;
 
+                if (operators.contains(curr)){
+                    parsedTokens.add(curr);
+                }
             }
 
         }
 
-        return null;
+        ArrayList<String> infixTokens = ShuntingYard.shunt(parsedTokens);
+
+        return infixTokens;
     }
 
     public void main(String formula){
