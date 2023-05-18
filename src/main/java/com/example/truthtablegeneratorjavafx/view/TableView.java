@@ -9,6 +9,7 @@ import javafx.geometry.VPos;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 
 import java.util.ArrayList;
@@ -34,7 +35,7 @@ public class TableView implements FXComponent{
         //creates the grid which holds the truth table
         GridPane gridPane = new GridPane();
 
-        gridPane.setAlignment(Pos.CENTER);
+        gridPane.setAlignment(Pos.TOP_CENTER);
 
         //add each variable as a header to the truth table
         for (int i = 0; i < variables.size(); i++){
@@ -59,6 +60,7 @@ public class TableView implements FXComponent{
         );
 
         gridPane.add(label, variables.size(), 0);
+        gridPane.setHalignment(label, HPos.CENTER);
 
         for (int row = 0; row < truthTable.length; row++){
             for (int col = 0; col < truthTable[row].size(); col++){
@@ -69,14 +71,41 @@ public class TableView implements FXComponent{
                         "-fx-font-size: 20;"
 
                 );
-                gridPane.add(boolValueLabel, col, row + 1); //column-major order for some reason. Not a fan.
-                gridPane.setHalignment(boolValueLabel, HPos.CENTER);
-                gridPane.setValignment(label, VPos.CENTER);
+
+                HBox pane = new HBox();
+
+
+                pane.setPrefWidth(Integer.MAX_VALUE);
+
+                if (row == 0 && col == 0){
+                    pane.setStyle("-fx-background-color: black, lightgray ;" +
+                            "-fx-background-insets: 0, 1 ");
+                }
+                else if (row == 0){
+                    pane.setStyle("-fx-background-color: black, lightgray ;" +
+                            "    -fx-background-insets: 0, 1 1 1 0 ;");
+                }
+                else if (col == 0){
+                    pane.setStyle("-fx-background-color: black, lightgray ;" +
+                            "    -fx-background-insets: 0, 0 1 1 1 ;");
+                }
+                else{
+                    pane.setStyle("-fx-background-color: black, lightgray ;" +
+                            "    -fx-background-insets: 0, 0 1 1 0 ;");
+                }
+
+                pane.getChildren().add(boolValueLabel);
+                pane.setAlignment(Pos.CENTER);
+
+                gridPane.add(pane, col, row + 1); //column-major order for some reason. Not a fan.
+                gridPane.setHalignment(pane, HPos.CENTER);
+                gridPane.setValignment(pane, VPos.CENTER);
             }
         }
 
-        gridPane.setHgap(50);
-        gridPane.setVgap(50);
+        gridPane.setHgap(0);
+        gridPane.setVgap(0);
+        gridPane.setPadding(new Insets(10, 10, 10, 10));
 
         return gridPane;
     }

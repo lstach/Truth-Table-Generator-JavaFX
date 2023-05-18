@@ -19,9 +19,51 @@ public class FormulaEntryView implements FXComponent{
     private Model model;
     private Controller controller;
 
+    private final String calculateIdle;
+    private final String calculateHover;
+    private final String calculateClick;
+
+    private final String helpIdle;
+    private final String helpHover;
+    private final String helpClick;
+
+
     public FormulaEntryView(Model model, Controller controller){
         this.model = model;
         this.controller = controller;
+
+        this.calculateIdle = "-fx-font-size: 18;" +
+                "-fx-background-color: #555555;" +
+                "-fx-background-radius: 5;" +
+                "-fx-text-fill: white;" +
+                "-fx-font-weight: bolder;";
+
+        this.calculateHover = "-fx-font-size: 18;" +
+                "-fx-background-color: #abb3b2;" +
+                "-fx-background-radius: 5;" +
+                "-fx-text-fill: white;" +
+                "-fx-font-weight: bolder;";
+
+        this.calculateClick = "-fx-font-size: 18;" +
+                "-fx-background-color: #1c911e;" +
+                "-fx-background-radius: 5;" +
+                "-fx-text-fill: white;" +
+                "-fx-font-weight: bolder;";
+
+        this.helpIdle = "-fx-background-color: gray;" +
+                "-fx-background-radius: 5;" +
+                "-fx-text-fill: white;" +
+                "-fx-font-weight: bolder;";
+
+        this.helpHover = "-fx-background-color: gray;" +
+                "-fx-background-radius: 5;" +
+                "-fx-text-fill: white;" +
+                "-fx-font-weight: bolder;";
+
+        this.helpClick = "-fx-background-color: gray;" +
+                "-fx-background-radius: 5;" +
+                "-fx-text-fill: white;" +
+                "-fx-font-weight: bolder;";
     }
 
     @Override
@@ -41,21 +83,21 @@ public class FormulaEntryView implements FXComponent{
                         "-fx-font-color: white;"
         );
 
-        //create the button that calculates once the formula is complete
-        Button button = new Button();
-        button.setText("Calculate");
-        button.setOnAction(
+        //create the calculate that calculates once the formula is complete
+        Button calculate = new Button();
+        calculate.setText("Calculate");
+        calculate.setOnAction(
                 (ActionEvent event) -> {
                     controller.clickCalculate(formulaEntry.getText());
                 });
-        button.setTranslateX(7);
+        calculate.setTranslateX(7);
 
-        //TODO: the button width ain't working... it's cut off
-        //button.setPrefWidth(200);
-        button.setMinWidth(150);
-        //button.setMaxWidth(200);
+        //TODO: the calculate width ain't working... it's cut off
+        //calculate.setPrefWidth(200);
+        calculate.setMinWidth(150);
+        //calculate.setMaxWidth(200);
 
-        button.setStyle(
+        calculate.setStyle(
                 "-fx-font-size: 18;" +
                         "-fx-background-color: #555555;" +
                         "-fx-background-radius: 5;" +
@@ -73,22 +115,21 @@ public class FormulaEntryView implements FXComponent{
                 (ActionEvent event) -> {
                     controller.clickHelp();
                 });
-        help.setStyle(
-                "-fx-background-color: gray;" +
-                "-fx-background-radius: 5;" +
-                "-fx-text-fill: white;" +
-                        "-fx-font-weight: bolder;"
-        );
+
+        help.setStyle(helpIdle);
+        help.setOnMouseEntered(e -> help.setStyle(helpHover));
+        help.setOnMouseExited(e -> help.setStyle(helpIdle));
+        help.setOnMouseClicked(e -> help.setStyle(helpClick));
 
         VBox nestedvBox = new VBox();
-        nestedvBox.getChildren().add(button);
+        nestedvBox.getChildren().add(calculate);
         nestedvBox.getChildren().add(help);
 
         //add UI elements to the hbox
         hBox.getChildren().add(formulaEntry);
         hBox.getChildren().add(nestedvBox);
-        hBox.setStyle("-fx-background-color: #FFFFFF;");
-        hBox.setPadding(new Insets(10, 10, 10, 10));
+
+        hBox.setPadding(new Insets(10, 10, 10, 0));
 
         Text errorMsg = new Text();
         errorMsg.setText("Hello! I'm an error!");
@@ -100,8 +141,12 @@ public class FormulaEntryView implements FXComponent{
 
         VBox vBox = new VBox();
         vBox.getChildren().add(hBox);
-        vBox.getChildren().add(errorMsg);
+
+        if (true) { //TODO: change this to condition given by model that adds an error message if there is one.
+            vBox.getChildren().add(errorMsg);
+        }
         vBox.setPadding(new Insets(10, 10, 10, 10));
+        vBox.setStyle("-fx-background-color: #FFFFFF;");
 
         return vBox;
     }
