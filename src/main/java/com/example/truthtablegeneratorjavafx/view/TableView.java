@@ -41,7 +41,7 @@ public class TableView implements FXComponent{
             Label label = new Label();
             label.setText(variables.get(i));
             label.setStyle(
-                    "-fx-font-size: 20;" +
+                    "-fx-font-size: 30;" +
                     "-fx-font-weight: bold;"
             );
 
@@ -54,7 +54,7 @@ public class TableView implements FXComponent{
         Label label = new Label();
         label.setText(model.getFormula());
         label.setStyle(
-                "-fx-font-size: 20;" +
+                "-fx-font-size: 30;" +
                 "-fx-font-weight: bold;"
         );
 
@@ -64,7 +64,14 @@ public class TableView implements FXComponent{
             for (int col = 0; col < truthTable[row].size(); col++){
                 Label boolValueLabel = new Label();
                 boolValueLabel.setText(truthTable[row].get(col));
+                boolValueLabel.setStyle(
+
+                        "-fx-font-size: 20;"
+
+                );
                 gridPane.add(boolValueLabel, col, row + 1); //column-major order for some reason. Not a fan.
+                gridPane.setHalignment(boolValueLabel, HPos.CENTER);
+                gridPane.setValignment(label, VPos.CENTER);
             }
         }
 
