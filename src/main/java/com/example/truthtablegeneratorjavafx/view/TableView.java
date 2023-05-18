@@ -34,10 +34,10 @@ public class TableView implements FXComponent{
         GridPane gridPane = new GridPane();
 
         gridPane.setAlignment(Pos.CENTER);
-        gridPane.setStyle("fx"
+        //gridPane.setStyle("fx"
 
 
-        );
+        //);
 
         //add each variable as a header to the truth table
         for (int i = 0; i < variables.size(); i++){
@@ -59,6 +59,7 @@ public class TableView implements FXComponent{
         label.setStyle(
                 "-fx-font-size: 20;" +
                 "-fx-font-weight: bold;"
+
         );
         gridPane.add(label, variables.size(), 0);
 
@@ -72,8 +73,6 @@ public class TableView implements FXComponent{
 
             }
         }
-
-
 
         return gridPane;
     }

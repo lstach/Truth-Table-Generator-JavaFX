@@ -4,11 +4,15 @@ import com.example.truthtablegeneratorjavafx.controller.Controller;
 import com.example.truthtablegeneratorjavafx.model.Model;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
 
 public class FormulaEntryView implements FXComponent{
 
@@ -18,9 +22,6 @@ public class FormulaEntryView implements FXComponent{
     public FormulaEntryView(Model model, Controller controller){
         this.model = model;
         this.controller = controller;
-
-
-
     }
 
     @Override
@@ -30,25 +31,76 @@ public class FormulaEntryView implements FXComponent{
 
         //create the text field for entering the formula
         TextField formulaEntry = new TextField();
-        formulaEntry.setMinWidth(250);
-        formulaEntry.setMaxWidth(250);
-        formulaEntry.setPrefWidth(250);
+        formulaEntry.setPadding(new Insets(20, 500, 20, 10));
+
+        formulaEntry.setPrefWidth( Integer.MAX_VALUE ); // makes textbox take up width of parent hBox (as much space as possible)
+
+        formulaEntry.setStyle(
+                "-fx-font-size: 20;" +
+
+                        "-fx-font-color: white;"
+        );
 
         //create the button that calculates once the formula is complete
         Button button = new Button();
         button.setText("Calculate");
-        button.setMinWidth(100);
-        button.setMaxWidth(100);
-        button.setPrefWidth(100);
         button.setOnAction(
                 (ActionEvent event) -> {
                     controller.clickCalculate(formulaEntry.getText());
                 });
+        button.setTranslateX(15.0);
+
+        //TODO: the button width ain't working... it's cut off
+        button.setPrefWidth(200);
+        button.setMinWidth(250);
+        button.setMaxWidth(200);
+
+        button.setStyle(
+                "-fx-font-size: 18;" +
+                        "-fx-background-color: #555555;" +
+                        "-fx-background-radius: 5;" +
+                        "-fx-text-fill: white;" +
+                        "-fx-font-weight: bolder;"
+        );
+
+
+        Button help = new Button();
+        help.setText("How to type?");
+        help.setTranslateX(15.0);
+        help.setTranslateY(4);
+        button.setMinWidth(100);
+        help.setStyle(
+                "-fx-background-color: gray;" +
+                "-fx-background-radius: 5;" +
+                "-fx-text-fill: white;" +
+                        "-fx-font-weight: bolder;"
+
+        );
+
+        VBox nestedvBox = new VBox();
+        nestedvBox.getChildren().add(button);
+        nestedvBox.getChildren().add(help);
+
 
         //add UI elements to the hbox
         hBox.getChildren().add(formulaEntry);
-        hBox.getChildren().add(button);
+        hBox.getChildren().add(nestedvBox);
+        hBox.setStyle("-fx-background-color: #FFFFFF;");
+        hBox.setPadding(new Insets(10, 10, 10, 10));
 
-        return hBox;
+        Text errorMsg = new Text();
+        errorMsg.setText("Hello! I'm an error!");
+        errorMsg.setStyle(
+                "-fx-font-size: 15;"
+        );
+        errorMsg.setFill(Color.RED);
+        errorMsg.setVisible(true);
+
+        VBox vBox = new VBox();
+        vBox.getChildren().add(hBox);
+        vBox.getChildren().add(errorMsg);
+        vBox.setPadding(new Insets(10, 10, 10, 10));
+
+        return vBox;
     }
 }

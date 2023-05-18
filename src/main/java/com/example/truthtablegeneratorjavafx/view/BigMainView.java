@@ -20,13 +20,12 @@ public class BigMainView implements FXComponent, ModelObserver {
         this.model = model;
         this.controller = controller;
 
-        scene = new Scene(render(), 500, 500);
+        scene = new Scene(render(), 1000, 1000);
     }
 
     public Scene getScene(){
      return scene;
     }
-
 
     @Override
     public Parent render() {

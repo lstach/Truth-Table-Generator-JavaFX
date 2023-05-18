@@ -38,15 +38,13 @@ public class ModelImpl implements Model{
         observers = new ArrayList<>();
     }
 
-    //TODO: get input from textfield, change from String[] to ArrayList<String> return type
     public ArrayList<String> parse(String formula){
-        //TODO: fix this! this is a temp solution
+        //TODO: check for invalid input
 
         formula = formula.replace(" ", "");
 
         ArrayList<String> parsedTokens = new ArrayList<>(); //the actual list being returned by this function
         String stringBuilder = ""; //temp string used to build tokens that are mutliple characters long (e.g. "/\")
-        Stack<String> stack = new Stack<>();
 
         for (int i = 0; i < formula.length(); i++){
             String curr = formula.substring(i, i+1);
@@ -72,42 +70,47 @@ public class ModelImpl implements Model{
         return infixTokens;
     }
 
+
     public void main(String formula){
 
         this.formula = formula;
+        ArrayList<String> infixTokens = new ArrayList<>();
 
-        ArrayList<String> infixTokens = parse(formula);
+        try {
+            infixTokens = parse(formula);
+        }
+        catch (Exception e){
+
+        }
+
         int numOperands = countOperands(infixTokens);
         variables = getOperands(infixTokens);
 
         ArrayList<String> rpnTokens = ShuntingYard.shunt(infixTokens);
 
-        System.out.print("Generating true/false combinations for " + numOperands + " operands...");
         boolGrid = generateRows(numOperands);
 
         //Generating the 2d array of strings containing the each formula with their true/false combinations in RPN (i.e. generating formulaGrid)...
         formulaGrid = new ArrayList[boolGrid.length];
 
         //TODO: within this double-for loop, add the answer to each rowFormula to the end of the rowFormula List
-        for (int row = 0; row < boolGrid.length; row++){
+        for (int row = 0; row < boolGrid.length; row++) {
             int col = 0;
             //visitedOperands can be made more efficient with a hashmap (index represents index in row, key represents operand)
             ArrayList<String> visitedOperands = new ArrayList<>();
             ArrayList<String> rowFormula = new ArrayList<>();
-            for (int i = 0; i < rpnTokens.size(); i++){
+            for (int i = 0; i < rpnTokens.size(); i++) {
                 String token = rpnTokens.get(i);
-                if (ShuntingYard.isOperand(token)){
-                    if (!visitedOperands.contains(token)){
+                if (ShuntingYard.isOperand(token)) {
+                    if (!visitedOperands.contains(token)) {
                         rowFormula.add(Boolean.toString(boolGrid[row][col]));
                         visitedOperands.add(token);
                         col++;
-                    }
-                    else{
+                    } else {
                         int retrieve = visitedOperands.indexOf(token);
                         rowFormula.add(Boolean.toString(boolGrid[row][retrieve]));
                     }
-                }
-                else{
+                } else {
                     rowFormula.add(token);
                 }
             }
@@ -120,16 +123,15 @@ public class ModelImpl implements Model{
         }
 
 
-
         //generating truthTable, the 2d matrix of strings containing each combination of true and false and the answer for each combination in the last column...
 
         truthTable = new ArrayList[boolGrid.length];
 
-        for (int row = 0; row < boolGrid.length; row++){
+        for (int row = 0; row < boolGrid.length; row++) {
 
             truthTable[row] = new ArrayList<>();
 
-            for (int col = 0; col < boolGrid[0].length; col++){
+            for (int col = 0; col < boolGrid[0].length; col++) {
                 truthTable[row].add(Boolean.toString(boolGrid[row][col]));
             }
 
@@ -138,6 +140,7 @@ public class ModelImpl implements Model{
         }
 
         notifyObservers();
+
     }
 
     public boolean[][] generateRows(int numOperands){
