@@ -20,4 +20,17 @@ public class ControllerImpl implements Controller{
 
     }
 
+    public void clickSaveAs(){
+
+    }
+
+    @Override
+    public void clickCopy() {
+
+    }
+
+    public void clickAbout(){
+
+    }
+
 }

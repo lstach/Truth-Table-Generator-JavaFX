@@ -4,9 +4,12 @@ import com.example.truthtablegeneratorjavafx.controller.Controller;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuBar;
 import javafx.scene.layout.BorderPane;
 import com.example.truthtablegeneratorjavafx.model.Model;
 import com.example.truthtablegeneratorjavafx.model.ModelObserver;
+import javafx.scene.layout.VBox;
 
 public class BigMainView implements FXComponent, ModelObserver {
 
@@ -29,14 +32,21 @@ public class BigMainView implements FXComponent, ModelObserver {
 
     @Override
     public Parent render() {
+
+
+
         borderPane = new BorderPane();
 
+        MenuView menuView = new MenuView(model, controller);
         FormulaEntryView formulaEntryView = new FormulaEntryView(model, controller);
+        VBox top = new VBox();
+
+        top.getChildren().add(menuView.render());
+        top.getChildren().add(formulaEntryView.render());
 
         TableView tableView = new TableView(model, controller);
 
-        borderPane.setTop(formulaEntryView.render());
-
+        borderPane.setTop(top);
         borderPane.setCenter(tableView.render());
 
         return borderPane;

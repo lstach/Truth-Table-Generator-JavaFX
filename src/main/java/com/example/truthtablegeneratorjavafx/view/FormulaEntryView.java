@@ -45,7 +45,7 @@ public class FormulaEntryView implements FXComponent{
                 "-fx-font-weight: bolder;";
 
         this.calculateClick = "-fx-font-size: 18;" +
-                "-fx-background-color: #1c911e;" +
+                "-fx-background-color: green;" +
                 "-fx-background-radius: 5;" +
                 "-fx-text-fill: white;" +
                 "-fx-font-weight: bolder;";
@@ -55,12 +55,12 @@ public class FormulaEntryView implements FXComponent{
                 "-fx-text-fill: white;" +
                 "-fx-font-weight: bolder;";
 
-        this.helpHover = "-fx-background-color: gray;" +
+        this.helpHover = "-fx-background-color: lightGray;" +
                 "-fx-background-radius: 5;" +
                 "-fx-text-fill: white;" +
                 "-fx-font-weight: bolder;";
 
-        this.helpClick = "-fx-background-color: gray;" +
+        this.helpClick = "-fx-background-color: lightGray;" +
                 "-fx-background-radius: 5;" +
                 "-fx-text-fill: white;" +
                 "-fx-font-weight: bolder;";
@@ -86,24 +86,18 @@ public class FormulaEntryView implements FXComponent{
         //create the calculate that calculates once the formula is complete
         Button calculate = new Button();
         calculate.setText("Calculate");
+        calculate.setTranslateX(7);
+        calculate.setMinWidth(150);
+
         calculate.setOnAction(
                 (ActionEvent event) -> {
                     controller.clickCalculate(formulaEntry.getText());
                 });
-        calculate.setTranslateX(7);
 
-        //TODO: the calculate width ain't working... it's cut off
-        //calculate.setPrefWidth(200);
-        calculate.setMinWidth(150);
-        //calculate.setMaxWidth(200);
+        calculate.setStyle(calculateIdle);
+        calculate.setOnMouseEntered(e -> calculate.setStyle(calculateHover));
+        calculate.setOnMouseExited(e -> calculate.setStyle(calculateIdle));
 
-        calculate.setStyle(
-                "-fx-font-size: 18;" +
-                        "-fx-background-color: #555555;" +
-                        "-fx-background-radius: 5;" +
-                        "-fx-text-fill: white;" +
-                        "-fx-font-weight: bolder;"
-        );
 
 
         Button help = new Button();
@@ -119,7 +113,7 @@ public class FormulaEntryView implements FXComponent{
         help.setStyle(helpIdle);
         help.setOnMouseEntered(e -> help.setStyle(helpHover));
         help.setOnMouseExited(e -> help.setStyle(helpIdle));
-        help.setOnMouseClicked(e -> help.setStyle(helpClick));
+        //help.setOnMouseClicked(e -> help.setStyle(helpClick));
 
         VBox nestedvBox = new VBox();
         nestedvBox.getChildren().add(calculate);

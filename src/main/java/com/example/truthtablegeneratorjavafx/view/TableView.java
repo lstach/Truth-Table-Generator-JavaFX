@@ -78,19 +78,19 @@ public class TableView implements FXComponent{
                 pane.setPrefWidth(Integer.MAX_VALUE);
 
                 if (row == 0 && col == 0){
-                    pane.setStyle("-fx-background-color: black, lightgray ;" +
+                    pane.setStyle("-fx-background-color: black, white ;" +
                             "-fx-background-insets: 0, 1 ");
                 }
                 else if (row == 0){
-                    pane.setStyle("-fx-background-color: black, lightgray ;" +
+                    pane.setStyle("-fx-background-color: black, white ;" +
                             "    -fx-background-insets: 0, 1 1 1 0 ;");
                 }
                 else if (col == 0){
-                    pane.setStyle("-fx-background-color: black, lightgray ;" +
+                    pane.setStyle("-fx-background-color: black, white ;" +
                             "    -fx-background-insets: 0, 0 1 1 1 ;");
                 }
                 else{
-                    pane.setStyle("-fx-background-color: black, lightgray ;" +
+                    pane.setStyle("-fx-background-color: black, white ;" +
                             "    -fx-background-insets: 0, 0 1 1 0 ;");
                 }
 

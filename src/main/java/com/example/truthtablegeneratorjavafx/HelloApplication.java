@@ -3,6 +3,9 @@ package com.example.truthtablegeneratorjavafx;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuBar;
+import javafx.scene.control.MenuItem;
 import javafx.stage.Stage;
 
 
@@ -17,16 +20,25 @@ public class HelloApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException {
 
+
+
         Model model = new ModelImpl();
         Controller controller = new ControllerImpl(model);
 
         BigMainView bigPapa = new BigMainView(model, controller);
 
+
+
         model.addObserver(bigPapa);
 
         stage.setScene(bigPapa.getScene());
 
+
+
         stage.setTitle("Hi there hello!");
+
+
+
 
         stage.show();
         stage.centerOnScreen();
