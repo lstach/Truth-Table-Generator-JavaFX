@@ -36,7 +36,7 @@ public class FormulaEntryView implements FXComponent{
         formulaEntry.setPrefWidth( Integer.MAX_VALUE ); // makes textbox take up width of parent hBox (as much space as possible)
 
         formulaEntry.setStyle(
-                "-fx-font-size: 20;" +
+                "-fx-font-size: 18;" +
 
                         "-fx-font-color: white;"
         );
@@ -48,12 +48,12 @@ public class FormulaEntryView implements FXComponent{
                 (ActionEvent event) -> {
                     controller.clickCalculate(formulaEntry.getText());
                 });
-        button.setTranslateX(15.0);
+        button.setTranslateX(7);
 
         //TODO: the button width ain't working... it's cut off
-        button.setPrefWidth(200);
-        button.setMinWidth(250);
-        button.setMaxWidth(200);
+        //button.setPrefWidth(200);
+        button.setMinWidth(150);
+        //button.setMaxWidth(200);
 
         button.setStyle(
                 "-fx-font-size: 18;" +
@@ -66,21 +66,23 @@ public class FormulaEntryView implements FXComponent{
 
         Button help = new Button();
         help.setText("How to type?");
-        help.setTranslateX(15.0);
+        help.setTranslateX(7);
         help.setTranslateY(4);
-        button.setMinWidth(100);
+        help.setMinWidth(150);
+        help.setOnAction(
+                (ActionEvent event) -> {
+                    controller.clickHelp();
+                });
         help.setStyle(
                 "-fx-background-color: gray;" +
                 "-fx-background-radius: 5;" +
                 "-fx-text-fill: white;" +
                         "-fx-font-weight: bolder;"
-
         );
 
         VBox nestedvBox = new VBox();
         nestedvBox.getChildren().add(button);
         nestedvBox.getChildren().add(help);
-
 
         //add UI elements to the hbox
         hBox.getChildren().add(formulaEntry);

@@ -15,4 +15,9 @@ public class ControllerImpl implements Controller{
         model.main(formula);
     }
 
+    //TODO: implement help pop-up
+    public void clickHelp(){
+
+    }
+
 }

@@ -3,6 +3,7 @@ package com.example.truthtablegeneratorjavafx.view;
 import com.example.truthtablegeneratorjavafx.controller.Controller;
 import com.example.truthtablegeneratorjavafx.model.Model;
 import javafx.geometry.HPos;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.geometry.VPos;
 import javafx.scene.Parent;
@@ -34,10 +35,6 @@ public class TableView implements FXComponent{
         GridPane gridPane = new GridPane();
 
         gridPane.setAlignment(Pos.CENTER);
-        gridPane.setStyle("fx"
-
-
-        );
 
         //add each variable as a header to the truth table
         for (int i = 0; i < variables.size(); i++){
@@ -48,8 +45,8 @@ public class TableView implements FXComponent{
                     "-fx-font-weight: bold;"
             );
 
-            GridPane.setHalignment(label, HPos.CENTER);
-            GridPane.setValignment(label, VPos.CENTER);
+            gridPane.setHalignment(label, HPos.CENTER);
+            gridPane.setValignment(label, VPos.CENTER);
 
             gridPane.add(label, i, 0); //column-major order for some reason. Not a fan.
         }
@@ -71,9 +68,8 @@ public class TableView implements FXComponent{
             }
         }
 
-
-
-
+        gridPane.setHgap(50);
+        gridPane.setVgap(50);
 
         return gridPane;
     }
