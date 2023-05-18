@@ -34,10 +34,10 @@ public class TableView implements FXComponent{
         GridPane gridPane = new GridPane();
 
         gridPane.setAlignment(Pos.CENTER);
-        //gridPane.setStyle("fx"
+        gridPane.setStyle("fx"
 
 
-        //);
+        );
 
         //add each variable as a header to the truth table
         for (int i = 0; i < variables.size(); i++){
@@ -59,20 +59,21 @@ public class TableView implements FXComponent{
         label.setStyle(
                 "-fx-font-size: 20;" +
                 "-fx-font-weight: bold;"
-
         );
-        gridPane.add(label, variables.size(), 0);
 
+        gridPane.add(label, variables.size(), 0);
 
         for (int row = 0; row < truthTable.length; row++){
             for (int col = 0; col < truthTable[row].size(); col++){
                 Label boolValueLabel = new Label();
                 boolValueLabel.setText(truthTable[row].get(col));
-
                 gridPane.add(boolValueLabel, col, row + 1); //column-major order for some reason. Not a fan.
-
             }
         }
+
+
+
+
 
         return gridPane;
     }
