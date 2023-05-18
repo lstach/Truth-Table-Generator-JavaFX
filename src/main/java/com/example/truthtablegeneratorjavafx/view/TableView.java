@@ -105,6 +105,7 @@ public class TableView implements FXComponent{
 
         gridPane.setHgap(0);
         gridPane.setVgap(0);
+        gridPane.setMaxWidth((model.getVariables().size() + 1) * 100);
         gridPane.setPadding(new Insets(10, 10, 10, 10));
 
         return gridPane;

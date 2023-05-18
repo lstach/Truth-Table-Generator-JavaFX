@@ -75,7 +75,7 @@ public class FormulaEntryView implements FXComponent{
         TextField formulaEntry = new TextField();
         formulaEntry.setPadding(new Insets(20, 500, 20, 10));
 
-        formulaEntry.setPrefWidth( Integer.MAX_VALUE ); // makes textbox take up width of parent hBox (as much space as possible)
+        formulaEntry.setPrefWidth(Integer.MAX_VALUE); // makes textbox take up width of parent hBox (as much space as possible)
 
         formulaEntry.setStyle(
                 "-fx-font-size: 18;" +
@@ -87,7 +87,17 @@ public class FormulaEntryView implements FXComponent{
         Button calculate = new Button();
         calculate.setText("Calculate");
         calculate.setTranslateX(7);
+
+        int numOperands = model.getVariables().size();
+
+        /*  the truth table is hard to read if it gets too wide as the window moves.
+            but we can't give it a fixed max size, as this would make it too small for more variables.
+            Thus, we give each column a max width + 1 for the formula column.
+            same with minimum.
+         */
+
         calculate.setMinWidth(150);
+        calculate.setMaxWidth((numOperands + 1) * 60);
 
         calculate.setOnAction(
                 (ActionEvent event) -> {
@@ -97,8 +107,6 @@ public class FormulaEntryView implements FXComponent{
         calculate.setStyle(calculateIdle);
         calculate.setOnMouseEntered(e -> calculate.setStyle(calculateHover));
         calculate.setOnMouseExited(e -> calculate.setStyle(calculateIdle));
-
-
 
         Button help = new Button();
         help.setText("How to type?");
@@ -113,7 +121,6 @@ public class FormulaEntryView implements FXComponent{
         help.setStyle(helpIdle);
         help.setOnMouseEntered(e -> help.setStyle(helpHover));
         help.setOnMouseExited(e -> help.setStyle(helpIdle));
-        //help.setOnMouseClicked(e -> help.setStyle(helpClick));
 
         VBox nestedvBox = new VBox();
         nestedvBox.getChildren().add(calculate);
@@ -125,20 +132,19 @@ public class FormulaEntryView implements FXComponent{
 
         hBox.setPadding(new Insets(10, 10, 10, 0));
 
-        Text errorMsg = new Text();
-        errorMsg.setText("Hello! I'm an error!");
-        errorMsg.setStyle(
-                "-fx-font-size: 15;"
-        );
-        errorMsg.setFill(Color.RED);
-        errorMsg.setVisible(true);
-
         VBox vBox = new VBox();
         vBox.getChildren().add(hBox);
 
-        if (true) { //TODO: change this to condition given by model that adds an error message if there is one.
+        if (model.getErrorMessage() != "") { // only displays the error message if there is an error in parsing.
+            Text errorMsg = new Text();
+            errorMsg.setStyle(
+                    "-fx-font-size: 15;"
+            );
+            errorMsg.setFill(Color.RED);
+
             vBox.getChildren().add(errorMsg);
         }
+
         vBox.setPadding(new Insets(10, 10, 10, 10));
         vBox.setStyle("-fx-background-color: #FFFFFF;");
 

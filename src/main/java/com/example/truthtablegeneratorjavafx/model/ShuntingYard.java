@@ -16,14 +16,21 @@ import java.util.Stack;
 public class ShuntingYard {
 
     public static ArrayList<String> operators = new ArrayList<String>(Arrays.asList(
-            "->", "/\\", "\\/", "<->", "!", "xor"
+            "->", "=>","/\\", "\\/", "<->", "!", "~", "^", "xor", "XOR"
+    ));
+
+    public static ArrayList<String> operands = new ArrayList<>(Arrays.asList(
+       "a", "b", "c", "d", "e", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "s", "u", "v", "w", "y", "z",
+       "A", "B", "C", "D", "E", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "S", "U", "V", "W", "Y", "Z"
     ));
 
     //operands exclude 't' and 'f' because those are considered reserved keywords for "true" and "false" respectively.  Same for "x", which is reserve for xor
-    public static ArrayList<String> operands = new ArrayList<>(Arrays.asList(
-            "a", "b", "c", "d", "e", "g", "h", "i", "j", "k", "l", "m", "n",
-            "p", "q", "s", "u", "v", "w", "y", "z"
-    ));
+
+
+    public ShuntingYard(){
+
+        System.out.println();
+    }
 
     /*** shunt() takes each token (individual operator and operand) in infix (i.e. standard) notation, and converts it into a list ordered in RPN ***/
     /*** this DOESN'T evaluate the boolean expression; that is done by calculate using the output from this function. ***/
@@ -70,7 +77,6 @@ public class ShuntingYard {
     }
 
 
-    //need to implement: !, xor
     //higher number -> higher precedent
     static int precedenceLevel(String operator){
         switch(operator){
@@ -99,7 +105,7 @@ public class ShuntingYard {
                 stack.push(Boolean.parseBoolean(token));
             }
             //'!' gets its own block because we don't want to pop 2 booleans from the stack if there's only 1
-            else if (token.equals("!")){
+            else if (token.equals("!") || token.equals("~")){
                 boolean p = stack.pop();
                 boolean value = Evaluate.not(p);
                 stack.push(value);
@@ -116,12 +122,15 @@ public class ShuntingYard {
                         value = Evaluate.or(p, q);
                         break;
                     case "<->":
+                    case "<=>":
                         value = Evaluate.iff(p, q);
                         break;
+                    case "=>":
                     case "->":
                         value = Evaluate.implies(p, q);
                         break;
                     case "xor":
+                    case "^":
                         value = Evaluate.xor(p, q);
                         break;
                 }
@@ -130,9 +139,6 @@ public class ShuntingYard {
         }
         return stack.pop();
     }
-
-
-
 
     public static boolean isLeftParen(String s){
         return (s.equals("("));
@@ -147,6 +153,7 @@ public class ShuntingYard {
     }
 
     public static boolean isOperand(String s){
+
         return operands.contains(s);
     }
 

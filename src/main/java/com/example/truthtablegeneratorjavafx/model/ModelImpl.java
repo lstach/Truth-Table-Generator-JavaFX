@@ -1,8 +1,14 @@
 package com.example.truthtablegeneratorjavafx.model;
 
+import com.example.truthtablegeneratorjavafx.model.Exceptions.DoubleOperandException;
+import com.example.truthtablegeneratorjavafx.model.Exceptions.DoubleOperatorException;
+import com.example.truthtablegeneratorjavafx.model.Exceptions.TorFException;
+import com.example.truthtablegeneratorjavafx.model.Exceptions.UnknownTokenException;
+
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.EmptyStackException;
 import java.util.Stack;
 
 public class ModelImpl implements Model{
@@ -21,9 +27,14 @@ public class ModelImpl implements Model{
     private ArrayList<String> variables;
     /** formula string entered by the user **/
     private String formula;
+    private String errorToken;
+    private String errorMessage;
+
     ArrayList<String> operators = new ArrayList<String>(Arrays.asList(
-            "->", "/\\", "\\/", "<->", "!", "xor"
     ));
+
+    ArrayList<String> potentialChars;
+
 
     private ArrayList<ModelObserver> observers;
 
@@ -31,31 +42,87 @@ public class ModelImpl implements Model{
         boolGrid = new boolean[0][0];
         formulaGrid = new ArrayList[0];
         truthTable = new ArrayList[0];
-
         variables = new ArrayList<>();
         formula = new String();
-
+        errorToken = new String();
+        errorMessage = new String();
         observers = new ArrayList<>();
+
+        potentialChars = new ArrayList<>(Arrays.asList(
+                "-", "<", ">", "=", "\\", "/", "!", "~", "^", "x", "o", "r"
+        ));
+
+        operators = new ArrayList<>(Arrays.asList(
+                "->", "=>","/\\", "\\/", "<->", "!", "~", "^", "xor", "XOR"
+        ));
+
+
     }
 
-    public ArrayList<String> parse(String formula){
+    public ArrayList<String> parse(String formula) throws UnknownTokenException, TorFException, DoubleOperatorException, DoubleOperandException {
         //TODO: check for invalid input
 
         formula = formula.replace(" ", "");
 
         ArrayList<String> parsedTokens = new ArrayList<>(); //the actual list being returned by this function
         String stringBuilder = ""; //temp string used to build tokens that are mutliple characters long (e.g. "/\")
+        Stack<String> parenStack = new Stack<>(); // stack used to validate parentheses
+
 
         for (int i = 0; i < formula.length(); i++){
             String curr = formula.substring(i, i+1);
 
             if (ShuntingYard.isOperand(curr)){
+
+                /* if the previous character is also an operand, throw an exception
+                    e.g. 'pp', "qp"
+                 */
+                if (parsedTokens.size() > 0 && ShuntingYard.isOperand(parsedTokens.get(parsedTokens.size() - 1))){ // gets the previous token if there is one and ensures it is not an operand
+                    throw new DoubleOperandException();
+                }
+                /* if we have been 'building' an operator and are interrupted, then throw an exception.
+                    e.g. /p
+                 */
+                else if (!stringBuilder.equals("")){
+                    errorToken = stringBuilder;
+                    throw new UnknownTokenException();
+                }
+
                 parsedTokens.add(curr);
             }
-            else if (ShuntingYard.isLeftParen(curr) || ShuntingYard.isRightParen(curr)){
+            else if (ShuntingYard.isLeftParen(curr)){
+                parsedTokens.add(curr);
+                parenStack.push(curr);
+            }
+            else if (ShuntingYard.isRightParen(curr)){
+                String popped = "";
+                // if this throws an EmptyStackException, it's caught by main(), as desired
+                popped = parenStack.pop();
+                if (!popped.equals("(")){
+                    // parenthesis error, which will be treated the same in main either way.
+                    errorToken = curr;
+                    throw new EmptyStackException();
+                }
+
                 parsedTokens.add(curr);
             }
             else{ // is part of an operator
+
+                /* the current char doesn't exist as either an operand or part of
+                    a potential operator, and therefore the input is invalid (unknown token)
+                 */
+                if (!potentialChars.contains(curr)) {
+                    errorToken = curr;
+                    throw new UnknownTokenException();
+                }
+                else if(curr.equals("f") || curr.equals("F") || curr.equals("t") || curr.equals("T")){
+                    throw new TorFException();
+                }
+                // if the previous token is also an operator, throw an exception.
+                else if (parsedTokens.size() > 0 && ShuntingYard.isOperator(parsedTokens.get(parsedTokens.size() - 1))){
+                    throw new DoubleOperatorException();
+                }
+
                 stringBuilder += curr;
 
                 if (operators.contains(stringBuilder)){
@@ -63,7 +130,12 @@ public class ModelImpl implements Model{
                     stringBuilder = "";
                 }
             }
+        }
 
+        if (parenStack.size() > 0){
+            // parenthesis error, which will be treated the same in main either way.
+            errorToken = parenStack.peek();
+            throw new EmptyStackException();
         }
 
         return parsedTokens;
@@ -78,12 +150,30 @@ public class ModelImpl implements Model{
         try {
             infixTokens = parse(formula);
         }
-        catch (Exception e){
+        catch (EmptyStackException e){
             error = true;
+            errorMessage = "Unmatched parenthesis '" + errorToken + "'.";
+        }
+        catch (UnknownTokenException e){
+            error = true;
+            errorMessage = "Unknown token '" + errorToken + "'.";
+        }
+        catch (DoubleOperandException e){
+            error = true;
+            errorMessage = "Expecting an operator.";
+        }
+        catch (DoubleOperatorException e){
+            error = true;
+            errorMessage = "Expecting an operand.";
+        }
+        catch (TorFException e){
+            error = true;
+            errorMessage = "Found '" + errorToken + "'. Do not enter T or F as these are reserved.";
         }
 
         // only do this if there wasn't an error in parsing
         if (!error){
+            errorMessage = "";
             int numOperands = countOperands(infixTokens);
             variables = getOperands(infixTokens);
 
@@ -200,6 +290,9 @@ public class ModelImpl implements Model{
     @Override
     public String getFormula() {
         return formula;
+    }
+    public String getErrorMessage(){
+        return errorMessage;
     }
 
     @Override
