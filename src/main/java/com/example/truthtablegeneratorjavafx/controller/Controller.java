@@ -5,6 +5,8 @@ public interface Controller {
     void clickHelp();
     void clickSaveAs();
     void clickCopy();
-    void clickAbout();
+
+    void clickGitHub();
+
 
 }

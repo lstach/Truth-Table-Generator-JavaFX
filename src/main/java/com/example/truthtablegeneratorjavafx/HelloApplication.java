@@ -20,25 +20,16 @@ public class HelloApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException {
 
-
-
         Model model = new ModelImpl();
         Controller controller = new ControllerImpl(model);
 
         BigMainView bigPapa = new BigMainView(model, controller);
 
-
-
         model.addObserver(bigPapa);
 
         stage.setScene(bigPapa.getScene());
 
-
-
-        stage.setTitle("Hi there hello!");
-
-
-
+        stage.setTitle("Truth Table Generator");
 
         stage.show();
         stage.centerOnScreen();

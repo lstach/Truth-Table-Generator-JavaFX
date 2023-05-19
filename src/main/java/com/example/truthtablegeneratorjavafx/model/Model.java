@@ -18,8 +18,12 @@ public interface Model {
 
     public ArrayList<String> getVariables();
     public String getFormula();
+    public String getUneditedFormula();
     public String getErrorMessage();
     public void notifyObservers();
     public void addObserver(ModelObserver observer);
 
+    public void export();
+    public void copy();
+    public void openGitHub();
 }

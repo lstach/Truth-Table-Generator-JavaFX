@@ -8,16 +8,26 @@ import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 
+import javafx.application.Application;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.stage.Stage;
+
 public class MenuView implements FXComponent{
 
     private Model model;
     private Controller controller;
 
+
     public MenuView(Model model, Controller controller){
         this.model = model;
         this.controller = controller;
+        initialize();
     }
 
+    private void initialize(){
+
+    }
     @Override
     public Parent render() {
 
@@ -33,7 +43,7 @@ public class MenuView implements FXComponent{
         // Edit tab buttons
         MenuItem copy = new MenuItem("Copy Values");
         // About tab buttons
-        MenuItem about = new MenuItem("About");
+        MenuItem gitHub = new MenuItem("github");
 
         // add click handlers to controller
         saveAs.setOnAction(
@@ -46,14 +56,14 @@ public class MenuView implements FXComponent{
                     controller.clickCopy();
                 });
 
-        about.setOnAction(
+        gitHub.setOnAction(
                 (ActionEvent event) -> {
-                    controller.clickAbout();
+                    controller.clickGitHub();
                 });
 
         fileMenu.getItems().add(saveAs);
         editMenu.getItems().add(copy);
-        aboutMenu.getItems().add(about);
+        aboutMenu.getItems().add(gitHub);
 
         menuBar.getMenus().add(fileMenu);
         menuBar.getMenus().add(editMenu);

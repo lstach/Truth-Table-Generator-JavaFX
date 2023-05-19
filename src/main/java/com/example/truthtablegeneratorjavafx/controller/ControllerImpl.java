@@ -21,16 +21,18 @@ public class ControllerImpl implements Controller{
     }
 
     public void clickSaveAs(){
-
+        model.export();
     }
 
     @Override
     public void clickCopy() {
-
+        model.copy();
     }
 
-    public void clickAbout(){
-
+    @Override
+    public void clickGitHub() {
+        model.openGitHub();
     }
+
 
 }

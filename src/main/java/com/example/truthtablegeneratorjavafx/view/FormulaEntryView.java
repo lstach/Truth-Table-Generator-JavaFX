@@ -27,6 +27,8 @@ public class FormulaEntryView implements FXComponent{
     private final String helpHover;
     private final String helpClick;
 
+    private HBox hBox;
+    private VBox vBox;
 
     public FormulaEntryView(Model model, Controller controller){
         this.model = model;
@@ -64,16 +66,22 @@ public class FormulaEntryView implements FXComponent{
                 "-fx-background-radius: 5;" +
                 "-fx-text-fill: white;" +
                 "-fx-font-weight: bolder;";
+
+        hBox = new HBox();
+        vBox = new VBox();
+        initialize(); // this is to initialize elements that don't need to be updated, so that they change only once (upon starting).
+    }
+
+    public void initialize(){
+
     }
 
     @Override
     public Parent render() {
 
-        HBox hBox = new HBox();
-
         //create the text field for entering the formula
         TextField formulaEntry = new TextField();
-        formulaEntry.setPadding(new Insets(20, 500, 20, 10));
+        formulaEntry.setPadding(new Insets(20, 0, 20, 10));
 
         formulaEntry.setPrefWidth(Integer.MAX_VALUE); // makes textbox take up width of parent hBox (as much space as possible)
 
@@ -82,6 +90,8 @@ public class FormulaEntryView implements FXComponent{
 
                         "-fx-font-color: white;"
         );
+        formulaEntry.setText(model.getUneditedFormula());
+        formulaEntry.positionCaret(model.getUneditedFormula().length());
 
         //create the calculate that calculates once the formula is complete
         Button calculate = new Button();
@@ -132,21 +142,21 @@ public class FormulaEntryView implements FXComponent{
 
         hBox.setPadding(new Insets(10, 10, 10, 0));
 
-        VBox vBox = new VBox();
         vBox.getChildren().add(hBox);
 
-        if (model.getErrorMessage() != "") { // only displays the error message if there is an error in parsing.
+        vBox.setPadding(new Insets(10, 10, 10, 10));
+        vBox.setStyle("-fx-background-color: #FFFFFF;");
+
+        if (!model.getErrorMessage().equals("")) { // only displays the error message if there is an error in parsing.
             Text errorMsg = new Text();
             errorMsg.setStyle(
                     "-fx-font-size: 15;"
             );
+            errorMsg.setText(model.getErrorMessage());
             errorMsg.setFill(Color.RED);
 
             vBox.getChildren().add(errorMsg);
         }
-
-        vBox.setPadding(new Insets(10, 10, 10, 10));
-        vBox.setStyle("-fx-background-color: #FFFFFF;");
 
         return vBox;
     }
