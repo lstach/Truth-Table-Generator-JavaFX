@@ -3,31 +3,30 @@ package com.example.truthtablegeneratorjavafx.view;
 import com.example.truthtablegeneratorjavafx.controller.Controller;
 import com.example.truthtablegeneratorjavafx.model.Model;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.Parent;
-import javafx.scene.control.Menu;
-import javafx.scene.control.MenuBar;
-import javafx.scene.control.MenuItem;
+import javafx.scene.control.*;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+
+import java.io.File;
 
 public class MenuView implements FXComponent{
 
     private Model model;
     private Controller controller;
+    private Stage stage;
 
 
-    public MenuView(Model model, Controller controller){
+    public MenuView(Model model, Controller controller, Stage stage){
         this.model = model;
         this.controller = controller;
-        initialize();
+        this.stage = stage;
     }
 
-    private void initialize(){
-
-    }
     @Override
     public Parent render() {
 
@@ -39,16 +38,16 @@ public class MenuView implements FXComponent{
         Menu aboutMenu = new Menu("About");
 
         // File tab buttons
-        MenuItem saveAs = new MenuItem("Save as");
+        MenuItem saveAs = new MenuItem("Save as .csv");
         // Edit tab buttons
         MenuItem copy = new MenuItem("Copy Values");
         // About tab buttons
         MenuItem gitHub = new MenuItem("github");
 
         // add click handlers to controller
-        saveAs.setOnAction(
+        gitHub.setOnAction(
                 (ActionEvent event) -> {
-                    controller.clickSaveAs();
+                    controller.clickGitHub();
                 });
 
         copy.setOnAction(
@@ -56,12 +55,22 @@ public class MenuView implements FXComponent{
                     controller.clickCopy();
                 });
 
-        gitHub.setOnAction(
-                (ActionEvent event) -> {
-                    controller.clickGitHub();
-                });
+        saveAs.setOnAction(new EventHandler<ActionEvent>() {
+               @Override
+               public void handle(ActionEvent actionEvent) {
 
-        fileMenu.getItems().add(saveAs);
+                   if (model.getTruthTable().length > 0){
+                       FileChooser fileChooser = new FileChooser();
+                       File location = fileChooser.showSaveDialog(stage);
+                       controller.clickSaveAs(location);
+                   } else{
+                       Alert alert = new Alert(Alert.AlertType.INFORMATION, "You have to make a truth table before you can save it as a .csv file.", ButtonType.CLOSE);
+                       alert.showAndWait();
+                   }
+               }
+           });
+
+                fileMenu.getItems().add(saveAs);
         editMenu.getItems().add(copy);
         aboutMenu.getItems().add(gitHub);
 

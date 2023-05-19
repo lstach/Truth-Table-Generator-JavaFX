@@ -3,6 +3,9 @@ package com.example.truthtablegeneratorjavafx.controller;
 
 import com.example.truthtablegeneratorjavafx.model.Model;
 
+import java.io.File;
+import java.io.IOException;
+
 public class ControllerImpl implements Controller{
 
     private Model model;
@@ -20,10 +23,13 @@ public class ControllerImpl implements Controller{
 
     }
 
-    public void clickSaveAs(){
-        model.export();
+    public void clickSaveAs(File location) {
+        try {
+            model.export(location);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
-
     @Override
     public void clickCopy() {
         model.copy();

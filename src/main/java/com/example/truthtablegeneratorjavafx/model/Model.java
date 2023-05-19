@@ -5,7 +5,10 @@ import com.example.truthtablegeneratorjavafx.model.Exceptions.DoubleOperatorExce
 import com.example.truthtablegeneratorjavafx.model.Exceptions.TorFException;
 import com.example.truthtablegeneratorjavafx.model.Exceptions.UnknownTokenException;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 public interface Model {
 
@@ -23,7 +26,7 @@ public interface Model {
     public void notifyObservers();
     public void addObserver(ModelObserver observer);
 
-    public void export();
+    public void export(File location) throws IOException;
     public void copy();
     public void openGitHub();
 }

@@ -5,19 +5,15 @@ import com.example.truthtablegeneratorjavafx.model.Exceptions.DoubleOperatorExce
 import com.example.truthtablegeneratorjavafx.model.Exceptions.TorFException;
 import com.example.truthtablegeneratorjavafx.model.Exceptions.UnknownTokenException;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.EmptyStackException;
-import java.util.Stack;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.*;
 
-import javafx.application.Application;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.input.Clipboard;
 import javafx.scene.input.ClipboardContent;
-import javafx.stage.Stage;
 
-
+import com.opencsv.*;
 
 public class ModelImpl implements Model {
 
@@ -314,7 +310,30 @@ public class ModelImpl implements Model {
 
     // save the truth table as a csv file
     @Override
-    public void export() {
+    public void export(File location){
+        if (location == null){
+            return;
+        }
+
+        String path = location.toString() + ".csv";
+        List<String[]> theRows = new ArrayList<>();
+        CSVWriter writer = null;
+        try {
+            writer = new CSVWriter(new FileWriter(path));
+
+            for (int row = 0; row < truthTable.length; row++){
+                String[] currRow = new String[truthTable[0].size()];
+                for (int col = 0; col < truthTable[0].size(); col++){
+                    currRow[col] = truthTable[row].get(col);
+                }
+                theRows.add(currRow);
+            }
+
+            writer.writeAll(theRows);
+            writer.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
     }
     public void copy(){

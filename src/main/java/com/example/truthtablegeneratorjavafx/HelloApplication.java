@@ -23,7 +23,7 @@ public class HelloApplication extends Application {
         Model model = new ModelImpl();
         Controller controller = new ControllerImpl(model);
 
-        BigMainView bigPapa = new BigMainView(model, controller);
+        BigMainView bigPapa = new BigMainView(model, controller, stage);
 
         model.addObserver(bigPapa);
 

@@ -1,6 +1,7 @@
 module com.example.truthtablegeneratorjavafx {
     requires javafx.controls;
     requires javafx.fxml;
+    requires com.opencsv;
 
 
     opens com.example.truthtablegeneratorjavafx to javafx.fxml;
