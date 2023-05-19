@@ -1,18 +1,23 @@
 package com.example.truthtablegeneratorjavafx.view;
 
+import com.example.truthtablegeneratorjavafx.HelloApplication;
 import com.example.truthtablegeneratorjavafx.controller.Controller;
 import com.example.truthtablegeneratorjavafx.model.Model;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
 public class FormulaEntryView implements FXComponent{
 
@@ -125,7 +130,31 @@ public class FormulaEntryView implements FXComponent{
         help.setMinWidth(150);
         help.setOnAction(
                 (ActionEvent event) -> {
-                    controller.clickHelp();
+                    StackPane stackPane = new StackPane();
+                    Scene helpScene = new Scene(stackPane);
+
+                    Stage helpWindow = new Stage();
+                    helpWindow.setScene(helpScene);
+                    helpWindow.setTitle("How to type");
+
+                    String imageName = "/question_mark.png";
+                    helpWindow.getIcons().add(new Image(HelloApplication.class.getResourceAsStream(imageName)));
+
+                    Label helpLabel = new Label();
+
+                    helpLabel.setStyle("-fx-wrap-text: True");
+
+                    String helpString = "Enter /\\ and \\/ for logical and and logical or.\n\n" +
+                            "! or ~ in front of an expression is negation, <-> or <=> for iff, -> or => for implies, " +
+                            " and ^ or xor for exclusive or.  You can also use parentheses to specify order.\n\n" +
+                            "Variables can be any letter from A-Z, excluding t, f, x, o, and r, which are reserved. " +
+                            "(Upper and lower case letters will be viewed as different variables).";
+
+                    helpLabel.setText(helpString);
+                    stackPane.getChildren().add(helpLabel);
+
+                    helpWindow.show();
+
                 });
 
         help.setStyle(helpIdle);
