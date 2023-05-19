@@ -83,6 +83,7 @@ public class ShuntingYard {
             case"<->":
                 return 0;
             case "->":
+            case "=>":
                 return 1;
             case "xor":
             case "\\/":
@@ -90,6 +91,7 @@ public class ShuntingYard {
             case "/\\":
                 return 3;
             case "!":
+            case "~":
                 return 4;
         }
         return -1;

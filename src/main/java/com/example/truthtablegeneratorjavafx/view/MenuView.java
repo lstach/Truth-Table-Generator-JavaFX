@@ -44,7 +44,7 @@ public class MenuView implements FXComponent{
         // About tab buttons
         MenuItem gitHub = new MenuItem("github");
 
-        // add click handlers to controller
+        // add click handlers
         gitHub.setOnAction(
                 (ActionEvent event) -> {
                     controller.clickGitHub();
@@ -55,22 +55,18 @@ public class MenuView implements FXComponent{
                     controller.clickCopy();
                 });
 
-        saveAs.setOnAction(new EventHandler<ActionEvent>() {
-               @Override
-               public void handle(ActionEvent actionEvent) {
+        saveAs.setOnAction(actionEvent -> {
+            if (model.getTruthTable().length > 0){ // save the truth table as a .csv file
+                FileChooser fileChooser = new FileChooser();
+                File location = fileChooser.showSaveDialog(stage);
+                controller.clickSaveAs(location);
+            } else{ // don't try and save if there is nothing to save.
+                Alert alert = new Alert(Alert.AlertType.INFORMATION, "You have to make a truth table before you can save it as a .csv file.", ButtonType.CLOSE);
+                alert.showAndWait();
+            }
+        });
 
-                   if (model.getTruthTable().length > 0){
-                       FileChooser fileChooser = new FileChooser();
-                       File location = fileChooser.showSaveDialog(stage);
-                       controller.clickSaveAs(location);
-                   } else{
-                       Alert alert = new Alert(Alert.AlertType.INFORMATION, "You have to make a truth table before you can save it as a .csv file.", ButtonType.CLOSE);
-                       alert.showAndWait();
-                   }
-               }
-           });
-
-                fileMenu.getItems().add(saveAs);
+        fileMenu.getItems().add(saveAs);
         editMenu.getItems().add(copy);
         aboutMenu.getItems().add(gitHub);
 
