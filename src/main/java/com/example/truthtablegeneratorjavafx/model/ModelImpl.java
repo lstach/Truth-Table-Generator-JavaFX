@@ -153,6 +153,12 @@ public class ModelImpl implements Model {
 
 
     public void main(String formula) {
+
+        // program bugs out if it's an empty string, so we just don't do anything if that's the case.
+        if (formula.equals("")){
+            return;
+        }
+
         uneditedFormula = formula;
 
         ArrayList<String> infixTokens = new ArrayList<>();

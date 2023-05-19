@@ -18,14 +18,16 @@ public class BigMainView implements FXComponent, ModelObserver {
     private Model model;
     private Controller controller;
     private Stage stage;
+    private Stage helpWindow;
     private Scene scene;
     private BorderPane borderPane;
     //TODO: add private fields of layout containers
 
-    public BigMainView(Model model, Controller controller, Stage stage){
+    public BigMainView(Model model, Controller controller, Stage stage, Stage helpWindow){
         this.model = model;
         this.controller = controller;
         this.stage = stage;
+        this.helpWindow = helpWindow;
 
         scene = new Scene(render(), 1000, 1000);
     }
@@ -40,7 +42,7 @@ public class BigMainView implements FXComponent, ModelObserver {
         borderPane = new BorderPane();
 
         MenuView menuView = new MenuView(model, controller, stage);
-        FormulaEntryView formulaEntryView = new FormulaEntryView(model, controller);
+        FormulaEntryView formulaEntryView = new FormulaEntryView(model, controller, helpWindow);
         VBox top = new VBox();
 
         top.getChildren().add(menuView.render());
@@ -50,6 +52,8 @@ public class BigMainView implements FXComponent, ModelObserver {
 
         borderPane.setTop(top);
         borderPane.setCenter(tableView.render());
+
+
 
 
 

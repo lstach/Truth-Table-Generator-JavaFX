@@ -34,10 +34,12 @@ public class FormulaEntryView implements FXComponent{
 
     private HBox hBox;
     private VBox vBox;
+    private Stage helpWindow;
 
-    public FormulaEntryView(Model model, Controller controller){
+    public FormulaEntryView(Model model, Controller controller, Stage helpWindow){
         this.model = model;
         this.controller = controller;
+        this.helpWindow = helpWindow;
 
         this.calculateIdle = "-fx-font-size: 18;" +
                 "-fx-background-color: #555555;" +
@@ -130,31 +132,9 @@ public class FormulaEntryView implements FXComponent{
         help.setMinWidth(150);
         help.setOnAction(
                 (ActionEvent event) -> {
-                    StackPane stackPane = new StackPane();
-                    Scene helpScene = new Scene(stackPane);
-
-                    Stage helpWindow = new Stage();
-                    helpWindow.setScene(helpScene);
-                    helpWindow.setTitle("How to type");
-
-                    String imageName = "/question_mark.png";
-                    helpWindow.getIcons().add(new Image(HelloApplication.class.getResourceAsStream(imageName)));
-
-                    Label helpLabel = new Label();
-
-                    helpLabel.setStyle("-fx-wrap-text: True");
-
-                    String helpString = "Enter /\\ and \\/ for logical and and logical or.\n\n" +
-                            "! or ~ in front of an expression is negation, <-> or <=> for iff, -> or => for implies, " +
-                            " and ^ or xor for exclusive or.  You can also use parentheses to specify order.\n\n" +
-                            "Variables can be any letter from A-Z, excluding t, f, x, o, and r, which are reserved. " +
-                            "(Upper and lower case letters will be viewed as different variables).";
-
-                    helpLabel.setText(helpString);
-                    stackPane.getChildren().add(helpLabel);
-
-                    helpWindow.show();
-
+                    if (!helpWindow.isShowing()){
+                        helpWindow.show();
+                    }
                 });
 
         help.setStyle(helpIdle);
