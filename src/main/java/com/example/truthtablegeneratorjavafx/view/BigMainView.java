@@ -10,6 +10,7 @@ import javafx.scene.layout.BorderPane;
 import com.example.truthtablegeneratorjavafx.model.Model;
 import com.example.truthtablegeneratorjavafx.model.ModelObserver;
 import javafx.scene.layout.VBox;
+import javafx.scene.shape.SVGPath;
 import javafx.stage.Stage;
 
 public class BigMainView implements FXComponent, ModelObserver {
@@ -49,6 +50,8 @@ public class BigMainView implements FXComponent, ModelObserver {
 
         borderPane.setTop(top);
         borderPane.setCenter(tableView.render());
+
+
 
         return borderPane;
     }

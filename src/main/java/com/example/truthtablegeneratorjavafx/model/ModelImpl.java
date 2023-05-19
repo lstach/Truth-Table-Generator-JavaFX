@@ -10,6 +10,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.*;
 
+import javafx.application.Application;
 import javafx.scene.input.Clipboard;
 import javafx.scene.input.ClipboardContent;
 
@@ -17,6 +18,8 @@ import com.opencsv.*;
 
 public class ModelImpl implements Model {
 
+
+    private Application application;
 
     /**
      * boolGrid stores all combinations of true/false for a given formula, formulaGrid stores each formula in RPN
@@ -52,7 +55,9 @@ public class ModelImpl implements Model {
 
     private ArrayList<ModelObserver> observers;
 
-    public ModelImpl() {
+    public ModelImpl(Application application) {
+        this.application = application;
+
         boolGrid = new boolean[0][0];
         formulaGrid = new ArrayList[0];
         truthTable = new ArrayList[0];
@@ -358,6 +363,6 @@ public class ModelImpl implements Model {
     }
 
     public void openGitHub(){
-
+        application.getHostServices().showDocument("https://github.com/lstach/Truth-Table-Generator-JavaFX");
     }
 }

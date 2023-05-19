@@ -22,7 +22,7 @@ public class HelloApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException {
 
-        Model model = new ModelImpl();
+        Model model = new ModelImpl(this);
         Controller controller = new ControllerImpl(model);
 
         BigMainView bigPapa = new BigMainView(model, controller, stage);
@@ -38,6 +38,7 @@ public class HelloApplication extends Application {
 
         stage.show();
         stage.centerOnScreen();
+
     }
 
     public static void main(String[] args) {
